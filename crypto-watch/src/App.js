@@ -17,7 +17,7 @@ function App() {
         <Headers />
         <Routes>
           <Route path="/" element={<Homepage />} />
-          <Route path="/crypto/:id" element={<CoinPage />} />
+          <Route path="/coin/:id" element={<CoinPage />} />
         </Routes>
       </div>
     </BrowserRouter>

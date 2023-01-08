@@ -23,6 +23,7 @@ const dark = createTheme({
     mode: "dark",
   },
 });
+
 const numberWithCommas = (x) => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
@@ -169,7 +170,7 @@ const CoinsTable = () => {
                             {row.price_change_percentage_24h.toFixed(2)}%
                           </TableCell>
                           <TableCell align="right">
-                            {symbol}{" "}
+                            {symbol}
                             {numberWithCommas(
                               row.market_cap.toString().slice(0, -6)
                             )}
