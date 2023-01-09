@@ -39,7 +39,7 @@ const Carousel = () => {
           textTransform: "uppercase",
           color: "white",
         }}
-        to={`/coins/${coin.id}`}
+        to={`/coin/${coin.id}`}
       >
         <img
           src={coin?.image}

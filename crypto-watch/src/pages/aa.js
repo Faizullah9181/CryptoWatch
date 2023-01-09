@@ -3,13 +3,27 @@ import { useParams } from "react-router-dom";
 import { CryptoState } from "../store/crypto-context";
 import { SingleCoin } from "../config/api";
 import CoinsInfo from "../components/coinsInfo";
+import { createTheme } from "@mui/material/styles";
 import axios from "axios";
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 const numberWithCommas = (x) => {
   if (x === undefined || x === null) return x;
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+});
+
 
 const CoinPage = () => {
   const { id } = useParams();
@@ -28,22 +42,29 @@ const CoinPage = () => {
     fetchSingleCoin();
   }, []);
 
-  
   return (
     <>
-      <Box
-        sx={{
+      <div
+        style={{
           display: "flex",
-          flexDirection: { md: "row", xs: "column" },
+          [theme.breakpoints.down("md")]: {
+            flexDirection: "column",
+            alignItems: "center",
+          },
         }}
       >
-        <Box
-          sx={{
-            width: { md: "30%" },
+        <div
+          style={{
+            width: "30%",
+            [theme.breakpoints.down("md")]: {
+              width: "30%",
+              backgroundColor: "red",
+            },
+
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            marginTop: 10,
+            marginTop: 25,
             borderRight: "2px solid grey",
           }}
         >
@@ -56,41 +77,48 @@ const CoinPage = () => {
 
           <Typography
             variant="h3"
-            sx={{
+            style={{
               fontWeight: "bold",
-              marginBottom: 5,
+              marginBottom: 20,
               fontFamily: "Montserrat",
-              backgroundColor: "red",
             }}
           >
             {coin?.name}
           </Typography>
           <Typography
             variant="subtitle1"
-            sx={{
+            style={{
               width: "100%",
               fontFamily: "Montserrat",
-              padding: 2,
-              paddingBottom: 2,
+              padding: 25,
+              paddingBottom: 15,
+              paddingTop: 0,
               textAlign: "justify",
             }}
           >
             <div
               dangerouslySetInnerHTML={{
-                __html: coin?.description.en.split(".").slice(0, 6) + ".",
+                __html: coin?.description.en.split(".").slice(0, 6)+".",
               }}
             />
           </Typography>
           <div
-            sx={{
+            style={{
               alignSelf: "start",
               padding: 25,
               paddingTop: 10,
               width: "100%",
-              display: { md: "flex" },
-              justifyContent: { md: "space-around" },
-              flexDirection: { sm: "column" },
-              alignItems: { sm: "center", xs: "start" },
+              [theme.breakpoints.down("md")]: {
+                display: "flex",
+                justifyContent: "space-around",
+              },
+              [theme.breakpoints.down("sm")]: {
+                flexDirection: "column",
+                alignItems: "center",
+              },
+              [theme.breakpoints.down("xs")]: {
+                alignItems: "start",
+              },
             }}
           >
             <span style={{ display: "flex" }}>
@@ -164,9 +192,9 @@ const CoinPage = () => {
               </Typography>
             </span>
           </div>
-        </Box>
-        <CoinsInfo coin={coin} />
-      </Box>
+        </div>
+        <CoinsInfo />
+      </div>
     </>
   );
 };
