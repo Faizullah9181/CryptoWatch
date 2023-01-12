@@ -22,7 +22,7 @@ const CoinPage = () => {
     setCoin(data);
   };
 
-  console.log("ss", coin);
+ 
 
   useEffect(() => {
     fetchSingleCoin();

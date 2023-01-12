@@ -10,21 +10,24 @@ import { chartDays } from "./Days";
 import { Line } from "react-chartjs-2";
 
 const CoinsInfo = ({ coin }) => {
+  
+ 
+
   const [historicData, setHistoricData] = useState();
   const [days, setDays] = useState(1);
   const { currency } = CryptoState();
   const [flag, setflag] = useState(false);
 
-
-  
   const fetchHistoricData = async () => {
-    
-    const { data } = await axios.get(HistoricalChart(coin.id, days, currency));
-    setflag(true);
-    setHistoricData(data.prices);
-  };
+    const coinObject = await { ...coin };
+    const data = await axios.get(HistoricalChart(coinObject.id, days, currency));
+    if (data) {
+      setflag(true);
+      setHistoricData(data.prices);
+    }
 
-  console.log(coin);
+    console.log(data.prices);
+  };
 
   useEffect(() => {
     fetchHistoricData();
@@ -49,7 +52,7 @@ const CoinsInfo = ({ coin }) => {
           justifyContent: "center",
           marginTop: 25,
           padding: 40,
-          width: {lg:1200 , md: "100%" },
+          width: { lg: 1200, md: "100%" },
           marginTop: { md: 0 },
           padding: { md: 20 },
           paddingTop: { md: 0 },

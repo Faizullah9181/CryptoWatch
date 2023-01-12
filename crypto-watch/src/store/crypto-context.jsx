@@ -19,7 +19,7 @@ const CryptoContext = (props) => {
     if (currency === "GBP") {
       setSymbol("£");
     }
-  }, [currency]);
+  }, []);
 
   return (
     <Crypto.Provider value={{ currency,symbol, setCurrency }}>
