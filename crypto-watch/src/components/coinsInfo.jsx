@@ -10,28 +10,36 @@ import { chartDays } from "./Days";
 import { Line } from "react-chartjs-2";
 
 const CoinsInfo = ({ coin }) => {
-  
- 
-
   const [historicData, setHistoricData] = useState();
   const [days, setDays] = useState(1);
   const { currency } = CryptoState();
   const [flag, setflag] = useState(false);
-
   const fetchHistoricData = async () => {
-    const coinObject = await { ...coin };
-    const data = await axios.get(HistoricalChart(coinObject.id, days, currency));
-    if (data) {
-      setflag(true);
-      setHistoricData(data.prices);
-    }
+    if (coin) {
+      const coinObject = await { ...coin };
+      // console.log(coinObject);
+      // console.log(HistoricalChart(coinObject.id, days, currency));
 
-    console.log(data.prices);
+      try {
+        const { data } = await axios.get(
+          HistoricalChart(coinObject.id, days, currency)
+        );
+        if (data) {
+          setHistoricData(data.prices);
+          setflag(true);
+          console.log(data.prices);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   useEffect(() => {
-    fetchHistoricData();
-  }, [days]);
+    if (coin && coin.id) {
+      fetchHistoricData();
+    }
+  }, [days, coin]);
 
   const darkTheme = createTheme({
     palette: {
@@ -45,18 +53,18 @@ const CoinsInfo = ({ coin }) => {
   return (
     <ThemeProvider theme={darkTheme}>
       <Box
-        xs={{
+        style={{
+          width: "75%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           marginTop: 25,
           padding: 40,
-          width: { lg: 1200, md: "100%" },
+          width: {  md: "100%" },
           marginTop: { md: 0 },
           padding: { md: 20 },
           paddingTop: { md: 0 },
-          backgroundColor: "red",
         }}
       >
         {!historicData | (flag === false) ? (
@@ -68,16 +76,22 @@ const CoinsInfo = ({ coin }) => {
         ) : (
           <>
             <Line
+              options={{
+                elements: {
+                  point: {
+                    radius: 1,
+                  },
+                },
+              }}
               data={{
                 labels: historicData.map((coin) => {
                   let date = new Date(coin[0]);
-                  let time =
-                    date.getHours() > 12
-                      ? `${date.getHours() - 12}:${date.getMinutes()} PM`
-                      : `${date.getHours()}:${date.getMinutes()} AM`;
-                  return days === 1 ? time : date.toLocaleDateString();
+                  if (days === 1) {
+                    return `${date.getHours()}:${date.getMinutes()}`;
+                  } else {
+                    return date.toLocaleDateString();
+                  }
                 }),
-
                 datasets: [
                   {
                     data: historicData.map((coin) => coin[1]),
@@ -86,20 +100,15 @@ const CoinsInfo = ({ coin }) => {
                   },
                 ],
               }}
-              options={{
-                elements: {
-                  point: {
-                    radius: 1,
-                  },
-                },
-              }}
             />
+
             <div
               style={{
                 display: "flex",
                 marginTop: 20,
                 justifyContent: "space-around",
                 width: "100%",
+              
               }}
             >
               {chartDays.map((day) => (
