@@ -6,6 +6,8 @@ const SelectButton = ({ children, selected, onClick }) => {
       onClick={onClick}
       sx={{
         border: "1px solid gold",
+        display : "flex",
+        justifyContent : "center",
         borderRadius: 5,
         padding: "4%",
         paddingLeft: "5%",
