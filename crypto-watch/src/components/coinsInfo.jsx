@@ -54,17 +54,20 @@ const CoinsInfo = ({ coin }) => {
     <ThemeProvider theme={darkTheme}>
       <Box
         style={{
-          width: "75%",
+          // width: "75%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
           marginTop: 25,
-          padding: 40,
-          width: {  md: "100%" },
+          padding: 4,
+          // width: {  md: "40%" },
           marginTop: { md: 0 },
           padding: { md: 20 },
           paddingTop: { md: 0 },
+          height: { md: "20%" },
+          width: "70%",
+
         }}
       >
         {!historicData | (flag === false) ? (
@@ -107,8 +110,7 @@ const CoinsInfo = ({ coin }) => {
                 display: "flex",
                 marginTop: 20,
                 justifyContent: "space-around",
-                width: "100%",
-              
+                width: "75%",
               }}
             >
               {chartDays.map((day) => (
